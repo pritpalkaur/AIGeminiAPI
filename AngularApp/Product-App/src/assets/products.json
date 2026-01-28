@@ -1,0 +1,6 @@
+[
+  { "id": 1, "name": "priti", "price": 100 },
+  { "id": 2, "name": "vasu", "price": 200 },
+  { "id": 3, "name": "priya", "price": 300 },
+  { "id": 4, "name": "balaji", "price": 400 }
+]
