@@ -5,3 +5,5 @@
 /API/obj
 /API/.vs
 /API/bin/Debug/net8.0
+/API/appsettings.json
+/API/appsettings.Development.json
