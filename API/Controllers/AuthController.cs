@@ -6,11 +6,11 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController : ControllerBase
+    public class LoginController : ControllerBase
     {
         private readonly ITokenService _tokenService;
 
-        public AuthController(ITokenService tokenService)
+        public LoginController(ITokenService tokenService)
         {
             _tokenService = tokenService;
         }
