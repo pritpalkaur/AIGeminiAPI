@@ -1,0 +1,12 @@
+<p>secure-test works!</p>
+<h2>Secure Test Message</h2>
+
+<div *ngIf="message; else loading">
+  <p><strong>Message:</strong> {{ message }}</p>
+  <p><strong>User:</strong> {{ user || 'No user in token' }}</p>
+  <p><strong>Time:</strong> {{ time }}</p>
+</div>
+
+<ng-template #loading>
+  <p>Loading secure message...</p>
+</ng-template>

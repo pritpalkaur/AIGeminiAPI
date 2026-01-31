@@ -1,0 +1,16 @@
+<mat-toolbar color="primary" class="toolbar">
+  <span>ProductApp</span>
+
+  <span class="spacer"></span>
+
+  <button mat-button routerLink="/product">Products</button>
+  <button mat-button routerLink="/secure-test">Secure Test</button>
+
+  <span class="spacer"></span>
+
+  <button mat-button color="accent" (click)="logout()">Logout</button>
+</mat-toolbar>
+
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

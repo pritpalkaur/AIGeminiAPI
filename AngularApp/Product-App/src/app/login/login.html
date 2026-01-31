@@ -1,0 +1,53 @@
+<h2 class="title">Login</h2>
+
+<div class="login-container">
+
+  <mat-card class="login-card">
+
+    <mat-card-header>
+      <mat-card-title>Welcome Back</mat-card-title>
+      <mat-card-subtitle>Please sign in to continue</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput [(ngModel)]="username" placeholder="Enter your username">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" [(ngModel)]="password" placeholder="Enter your password">
+      </mat-form-field>
+
+      <p class="error" *ngIf="error">{{ error }}</p>
+
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" class="full-width" (click)="login()">
+        Login
+      </button>
+    </mat-card-actions>
+
+  </mat-card>
+
+</div>
+
+<!-- <p>login works!</p>
+<h2>Login</h2>
+
+<div>
+  <label>Username</label>
+  <input [(ngModel)]="username">
+</div>
+
+<div>
+  <label>Password</label>
+  <input type="password" [(ngModel)]="password">
+</div>
+
+<button (click)="login()">Login</button>
+
+<p style="color:red">{{ error }}</p> -->
