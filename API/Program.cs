@@ -34,7 +34,10 @@ builder.Services.AddAuthorization();
 
 // ---------------- DB CONTEXT ----------------
 builder.Services.AddDbContext<APIDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ProductConnection")));
+builder.Services.AddDbContext<OrderDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("OrderConnection")));
+
 
 // ---------------- DEPENDENCY INJECTION ----------------
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -42,8 +45,10 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IGeminiService, GeminiService>();// DI
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
-builder.Services.AddScoped<IGeminiService, GeminiService>();
 
 // ---------------- CONTROLLERS ----------------
 builder.Services.AddControllers();

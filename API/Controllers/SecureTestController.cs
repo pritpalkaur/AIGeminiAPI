@@ -6,7 +6,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize] // This requires a valid JWT token
+    //[Authorize] // This requires a valid JWT token
     public class SecureTestController : ControllerBase
     {
         [HttpGet("hello")]
