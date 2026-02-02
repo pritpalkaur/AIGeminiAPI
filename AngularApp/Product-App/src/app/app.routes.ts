@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { ProductComponent } from './product-component/product-component';
+import { OrderList } from './components/order-list/order-list';
+import { OrderDetails } from './components/order-details/order-details';
 import { SecureTest } from './secure-test/secure-test';
 import { Login } from './login/login';
 import { authGuard } from './auth-guard';
@@ -16,6 +18,8 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'product', component: ProductComponent },
+      { path: 'orders', component: OrderList },
+      { path: 'orders/:id', component: OrderDetails },
       { path: 'secure-test', component: SecureTest },
       { path: '', redirectTo: 'product', pathMatch: 'full' }
     ]
