@@ -33,6 +33,7 @@ export class ProductComponent {
   displayedColumns: string[] = ['id', 'name', 'price','stock', 'actions'];
   products: Product[] = [];
   newProduct: Product = { id: 0, name: '', price: 0, stock: 0 };
+filteredProducts: Product[] = [];
 
   constructor(private productService: ProductService) {}
 
@@ -40,13 +41,32 @@ export class ProductComponent {
     this.loadProducts();
   }
 
+  // loadProducts() {
+  //   console.log('Loading products...');
+  //   this.productService.getProducts().subscribe({
+  //     next: (data) => this.products = data,
+  //     error: (err) => console.error('Error loading products', err)
+  //   });
+  // }
   loadProducts() {
-    console.log('Loading products...');
-    this.productService.getProducts().subscribe({
-      next: (data) => this.products = data,
-      error: (err) => console.error('Error loading products', err)
-    });
-  }
+  this.productService.getProducts().subscribe({
+    next: (data) => {
+      this.products = data;
+      this.filteredProducts = data; // initialize filtered list
+    },
+    error: (err) => console.error('Error loading products', err)
+  });
+}
+applyFilter(event: Event) {
+  const value = (event.target as HTMLInputElement).value.toLowerCase();
+
+  this.filteredProducts = this.products.filter(product =>
+    product.name.toLowerCase().includes(value) ||
+    product.price.toString().includes(value) ||
+    product.stock.toString().includes(value)
+  );
+}
+
 
   // addProduct() {
   //   this.productService.addProduct(this.newProduct).subscribe({

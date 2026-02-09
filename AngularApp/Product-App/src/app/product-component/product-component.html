@@ -5,8 +5,13 @@
 </div> -->
 
 
+<mat-form-field appearance="outline" style="width: 300px; margin-bottom: 16px;">
+  <mat-label>Search products</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Search by name or price">
+</mat-form-field>
 
-<table mat-table [dataSource]="products" class="mat-elevation-z8">
+<!-- <table mat-table [dataSource]="products" class="mat-elevation-z8"> -->
+<table mat-table [dataSource]="filteredProducts" class="mat-elevation-z8">
 
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef>ID</th>

@@ -33,7 +33,7 @@ export class Login {
   constructor(private http: HttpClient, private router: Router) {}
 
   login() {
-    this.http.post<any>('https://localhost:59257/api/Login/login', {
+    this.http.post<any>('http://localhost/api/Login/login', {
       username: this.username,
       password: this.password
     }).subscribe({

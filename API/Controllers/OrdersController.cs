@@ -9,7 +9,7 @@ namespace API.Controllers
     // Controllers/OrdersController.cs
     [ApiController]
     [Route("api/[controller]")]
-   // [Authorize] // require JWT
+    [Authorize] // require JWT
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
@@ -48,10 +48,9 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMyOrders()
         {
-            //var userId = User.Identity?.Name;
-           // if (string.IsNullOrEmpty(userId))
-              //  return Unauthorized();
-            var userId = "admin";
+            var userId = User.Identity?.Name;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
             var orders = await _orderService.GetUserOrdersAsync(userId.ToString());
             return Ok(orders.Select(MapToResponse));
         }

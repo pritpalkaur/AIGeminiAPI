@@ -98,11 +98,9 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // ---------------- MIDDLEWARE ORDER ----------------
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("AllowAngular");
 

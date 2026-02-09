@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SecureTestService {
-private apiUrl = 'https://localhost:59257/api/SecureTest/hello';
+private apiUrl = 'http://localhost/api/SecureTest/hello';
 
   constructor(private http: HttpClient) {}
 

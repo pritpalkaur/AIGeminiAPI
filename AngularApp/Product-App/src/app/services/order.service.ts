@@ -8,19 +8,41 @@ import { Order } from '../models/order';
 })
 export class OrderService {
 
-  private apiUrl = 'https://localhost:59257/api/orders';
+  private apiUrl = 'http://localhost/api/orders';
 
   constructor(private http: HttpClient) {}
 
+  // getMyOrders(): Observable<Order[]> {
+  //   return this.http.get<Order[]>(this.apiUrl);
+  // }
   getMyOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(this.apiUrl);
-  }
+  return this.http.get<Order[]>(this.apiUrl, {
+    headers: this.getAuthHeaders()
+  });
+}
 
+
+  // getOrderById(id: number): Observable<Order> {
+  //   return this.http.get<Order>(`${this.apiUrl}/${id}`);
+  // }
   getOrderById(id: number): Observable<Order> {
-    return this.http.get<Order>(`${this.apiUrl}/${id}`);
-  }
+  return this.http.get<Order>(`${this.apiUrl}/${id}`, {
+    headers: this.getAuthHeaders()
+  });
+}
 
-  createOrder(order: any): Observable<any> {
-    return this.http.post(this.apiUrl, order);
-  }
+
+createOrder(order: any): Observable<any> {
+  return this.http.post(this.apiUrl, order, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+}
+  private getAuthHeaders() {
+  return {
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  };
+}
+
 }

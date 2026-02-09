@@ -1,12 +1,22 @@
 {
   "profiles": {
-    "API": {
+    "API-https": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "swagger/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:59257;http://localhost:59258"
+      "applicationUrl": "https://localhost:59257"
+    },
+    "API-http": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger/index.html",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:59258"
     }
   }
 }

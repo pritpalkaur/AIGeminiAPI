@@ -1,4 +1,118 @@
-<p>order-list works!</p>
+
+<mat-card>
+  <h2>My Orders</h2>
+
+  <table mat-table [dataSource]="orders" class="mat-elevation-z8" *ngIf="orders.length > 0">
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let order">{{ order.id }}</td>
+    </ng-container>
+
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let order">{{ order.status }}</td>
+    </ng-container>
+
+    <!-- Total Column -->
+    <ng-container matColumnDef="totalAmount">
+      <th mat-header-cell *matHeaderCellDef>Total</th>
+      <td mat-cell *matCellDef="let order">{{ order.totalAmount }}</td>
+    </ng-container>
+
+    <!-- Date Column -->
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let order">{{ order.createdAt | date:'short' }}</td>
+    </ng-container>
+
+    <!-- View Column -->
+    <ng-container matColumnDef="view">
+      <th mat-header-cell *matHeaderCellDef>View</th>
+      <td mat-cell *matCellDef="let order">
+        <button mat-raised-button color="primary" [routerLink]="['/orders', order.id]">
+          <mat-icon>visibility</mat-icon> Details
+        </button>
+      </td>
+    </ng-container>
+<ng-container matColumnDef="edit">
+  <th mat-header-cell *matHeaderCellDef>Edit</th>
+  <td mat-cell *matCellDef="let order">
+    <button mat-icon-button color="primary" (click)="editOrder(order)">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </td>
+</ng-container>
+
+         
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+
+  <p *ngIf="orders.length === 0">No orders found.</p>
+</mat-card>
+<h3>Add / Edit Product</h3>
+
+<h3>Create New Order</h3>
+
+<div style="display: flex; gap: 16px; margin-bottom: 16px;">
+
+  <!-- Product ID -->
+  <mat-form-field appearance="outline">
+    <mat-label>Status</mat-label>
+    <input matInput type="number" [(ngModel)]="newOrder.status">
+  </mat-form-field>
+
+  <!-- Quantity -->
+  <mat-form-field appearance="outline">
+    <mat-label>totalAmount</mat-label>
+    <input matInput type="number" [(ngModel)]="newOrder.totalAmount">
+  </mat-form-field>
+
+    <mat-form-field appearance="outline">
+    <mat-label>Order Date</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="newOrder.createdAt">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+
+<button mat-raised-button color="primary" (click)="createOrder()">
+  Submit Order
+</button>
+
+<!-- <p>order-details works!</p>
+<div *ngIf="order">
+  <h2>Order #{{ order?.id }}</h2>
+
+  <p><strong>Status:</strong> {{ order?.status }}</p>
+  <p><strong>Total:</strong> {{ order?.totalAmount }}</p>
+  <p><strong>Date:</strong> {{ order?.createdAt }}</p> 
+
+  <h3>this is order details</h3>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Qty</th>
+        <th>Unit Price</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of order.items">
+        <td>{{ item.productId }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.unitPrice  }}</td> 
+      </tr>
+    </tbody>
+  </table>
+</div> 
+<!-- <p>order-list works!</p>
 <h2>My Orders</h2>
 
 <table class="table table-bordered" *ngIf="orders.length > 0">
@@ -25,4 +139,4 @@
   </tbody>
 </table>
 
-<p *ngIf="orders.length === 0">No orders found.</p>
+<p *ngIf="orders.length === 0">No orders found.</p> -->
