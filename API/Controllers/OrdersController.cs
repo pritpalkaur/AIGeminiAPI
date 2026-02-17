@@ -13,10 +13,13 @@ namespace API.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public OrdersController(IOrderService orderService)
+        public OrdersController(IOrderService orderService, IHttpContextAccessor httpContextAccessor)
         {
             _orderService = orderService;
+            _httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost]
@@ -54,6 +57,17 @@ namespace API.Controllers
             string userId = "admin";
             var orders = await _orderService.GetUserOrdersAsync(userId.ToString());
             return Ok(orders.Select(MapToResponse));
+        }
+        [HttpGet("paged")]
+        //[Authorize] // if you’re using JWT
+        public async Task<ActionResult<PagedResult<Order>>> GetPagedOrders([FromQuery] PaginationParams pagination)
+        {
+            // If you want per-user orders:
+            var userId = _httpContextAccessor.HttpContext?.User?.FindFirst("sub")?.Value;
+
+            var result = await _orderService.GetPagedOrdersAsync(pagination, userId);
+
+            return Ok(result);
         }
 
         private static OrderResponseDto MapToResponse(Order order) =>

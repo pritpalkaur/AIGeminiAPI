@@ -8,5 +8,7 @@ namespace API.BusinessLayer
         Task<Order> CreateOrderAsync(string userId, CreateOrderDto dto);
         Task<Order> GetOrderAsync(int id, string userId);
         Task<List<Order>> GetUserOrdersAsync(string userId);
+        Task<PagedResult<Order>> GetPagedOrdersAsync(PaginationParams pagination, string? userId = null);
+
     }
 }

@@ -52,6 +52,33 @@ namespace API.DataAccessLayer
             }
 
         }
+        public async Task<PagedResult<Order>> GetPagedOrdersAsync(PaginationParams pagination, string? userId = null)
+        {
+            var query = _context.Orders
+                .Include(o => o.Items)
+                .OrderByDescending(o => o.CreatedAt)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(userId))
+            {
+                query = query.Where(o => o.UserId == userId);
+            }
+
+            var totalCount = await query.CountAsync();
+
+            var items = await query
+                .Skip((pagination.PageNumber - 1) * pagination.PageSize)
+                .Take(pagination.PageSize)
+                .ToListAsync();
+
+            return new PagedResult<Order>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageNumber = pagination.PageNumber,
+                PageSize = pagination.PageSize
+            };
+        }
 
         public async Task UpdateAsync(Order order)
         {

@@ -32,6 +32,11 @@ namespace API.BusinessLayer
 
             return await _repo.AddAsync(order);
         }
+        public Task<PagedResult<Order>> GetPagedOrdersAsync(PaginationParams pagination, string? userId = null)
+        {
+            // Here you can add business rules, validation, etc.
+            return _repo.GetPagedOrdersAsync(pagination, userId);
+        }
 
         public Task<Order> GetOrderAsync(int id, string userId) =>
             _repo.GetByIdAsync(id, userId);

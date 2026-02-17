@@ -17,6 +17,7 @@ namespace API.DataAccessLayer
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
 
+
         // Optional: Override OnModelCreating if needed for custom configurations
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

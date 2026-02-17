@@ -40,14 +40,20 @@ builder.Services.AddDbContext<OrderDbContext>(options =>
 
 
 // ---------------- DEPENDENCY INJECTION ----------------
+//-------------------user service----------------
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IProductService, ProductService>();
+//-------------------auth service----------------           
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IGeminiService, GeminiService>();// DI
+//-------------------product service----------------
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
+
+//-------------------order service----------------
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddHttpContextAccessor();
 
 
 // ---------------- CONTROLLERS ----------------
