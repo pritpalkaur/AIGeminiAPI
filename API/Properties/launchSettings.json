@@ -7,7 +7,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:59257"
+      "applicationUrl": "https://localhost:50000"
     },
     "API-http": {
       "commandName": "Project",
@@ -16,7 +16,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:59258"
+      "applicationUrl": "http://localhost:50000"
     }
   }
 }

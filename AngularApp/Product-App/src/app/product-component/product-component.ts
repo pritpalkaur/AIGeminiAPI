@@ -58,6 +58,7 @@ filteredProducts: Product[] = [];
   });
 }
 applyFilter(event: Event) {
+  alert('event called '); // Debugging alert
   const value = (event.target as HTMLInputElement).value.toLowerCase();
 
   this.filteredProducts = this.products.filter(product =>
