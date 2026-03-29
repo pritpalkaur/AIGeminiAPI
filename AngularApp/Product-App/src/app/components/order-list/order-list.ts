@@ -12,7 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
-
+import { PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-order-list',
@@ -27,12 +28,18 @@ import { FormsModule } from '@angular/forms';
       MatFormFieldModule,
       MatInputModule,
       MatDatepickerModule,
-      MatNativeDateModule
+      MatNativeDateModule,
+      MatPaginatorModule 
 ],
 })
 export class OrderList implements OnInit {
 displayedColumns: string[] = ['id', 'status', 'totalAmount', 'createdAt', 'view'];
   orders: Order[] = [];
+    // Pagination state
+  totalCount = 0;
+  pageSize = 10;
+  pageIndex = 0;
+
 newOrder: Order = {
   id: 0,
   userId: '',
@@ -55,6 +62,21 @@ newOrder: Order = {
       next: (data) => this.orders = data,
       error: (err) => console.error('Error loading orders', err)
     });
+  }
+  loadPagedOrders(): void {
+    this.orderService.getPagedOrders(this.pageIndex + 1, this.pageSize).subscribe({
+      next: (res) => {
+        this.orders = res.items;
+        this.totalCount = res.totalCount;
+      },
+      error: (err) => console.error('Error loading orders', err)
+    });
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadPagedOrders();
   }
 
 createOrder() {

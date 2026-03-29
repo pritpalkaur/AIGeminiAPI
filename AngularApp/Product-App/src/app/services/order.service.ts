@@ -31,6 +31,17 @@ export class OrderService {
   });
 }
 
+getPagedOrders(pageNumber: number, pageSize: number) {
+  return this.http.get<any>(`${this.apiUrl}/paged`, {
+    params: {
+      pageNumber,
+      pageSize
+    },
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+}
 
 createOrder(order: any): Observable<any> {
   return this.http.post(this.apiUrl, order, {
