@@ -2,6 +2,7 @@ using API.BusinessLayer;
 using API.DataAccessLayer;
 using GeminiApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -95,7 +96,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
+        policy.WithOrigins("http://192.168.88.18:8080")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -104,15 +105,17 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // ---------------- MIDDLEWARE ORDER ----------------
-
+// Enables Swagger/OpenAPI JSON endpoint (used by Swagger UI)
 app.UseSwagger();
+// Enables the interactive Swagger UI for testing API endpoints
 app.UseSwaggerUI();
-
+// Applies the CORS policy so Angular frontend can call this API
 app.UseCors("AllowAngular");
-
+// Validates JWT tokens on incoming requests (checks signature, issuer, audience, expiry)
 app.UseAuthentication();   // <-- IMPORTANT
+// Checks user permissions/roles after authentication (works with [Authorize] attributes)
 app.UseAuthorization();
-
+// Maps controller endpoints(this is where your API routes are executed)
 app.MapControllers();
-
+// Starts the application and begins listening for HTTP requests
 app.Run();
