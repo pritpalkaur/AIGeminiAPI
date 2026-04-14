@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     // Controllers/OrdersController.cs
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    [Route("api/[controller]")]
-  //  [Authorize] // require JWT
+    //  [Authorize] // require JWT
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
@@ -49,7 +51,19 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMyOrders()
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> GetMyOrdersv1()
+        {
+            //var userId = User.Identity?.Name;
+            //if (string.IsNullOrEmpty(userId))
+            //    return Unauthorized();
+            string userId = "admin";
+            var orders = await _orderService.GetUserOrdersAsync(userId.ToString());
+            return Ok(orders.Select(MapToResponse));
+        }
+        [HttpGet]
+        [MapToApiVersion("2.0")]
+        public async Task<IActionResult> GetMyOrdersv2()
         {
             //var userId = User.Identity?.Name;
             //if (string.IsNullOrEmpty(userId))

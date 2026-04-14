@@ -14,6 +14,12 @@ var builder = WebApplication.CreateBuilder(args);
 var jwtKey = builder.Configuration["Jwt:Key"];
 var jwtIssuer = builder.Configuration["Jwt:Issuer"];
 var jwtAudience = builder.Configuration["Jwt:Audience"];
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+});
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -37,7 +43,15 @@ builder.Services.AddAuthorization();
 builder.Services.AddDbContext<APIDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ProductConnection")));
 builder.Services.AddDbContext<OrderDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("OrderConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("OrderConnection"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(10),
+            errorNumbersToAdd: null
+        )
+    )
+);
+
 
 
 // ---------------- DEPENDENCY INJECTION ----------------
@@ -96,7 +110,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
     {
-        policy.WithOrigins("http://192.168.88.5:8080")
+        policy.WithOrigins("http://192.168.88.15:8080")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
