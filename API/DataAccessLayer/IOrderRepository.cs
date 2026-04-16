@@ -9,7 +9,9 @@ namespace API.DataAccessLayer
         Task<List<Order>> GetByUserAsync(string userId);
         Task<Order> AddAsync(Order order);
         Task UpdateAsync(Order order);
-        Task<PagedResult<Order>> GetPagedOrdersAsync(PaginationParams pagination, string? userId = null);
+      
+        Task<PagedResult<Order>> GetPagedOrdersAsync(string userId, int pageNumber, int pageSize);
+
 
     }
 }

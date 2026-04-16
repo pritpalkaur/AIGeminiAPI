@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,20 @@ builder.Services.AddApiVersioning(options =>
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.ReportApiVersions = true;
 });
+
+builder.Services.AddVersionedApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
+
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.Seq("http://localhost:5341")
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -78,7 +93,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    // Add JWT support in Swagger
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Order API",
+        Version = "v1"
+    });
+
+    options.SwaggerDoc("v2", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Order API",
+        Version = "v2"
+    });
+
+    // JWT support
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
@@ -104,6 +131,34 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+//builder.Services.AddSwaggerGen(options =>
+//{
+//    // Add JWT support in Swagger
+//    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+//    {
+//        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+//        Description = "Enter JWT token",
+//        Name = "Authorization",
+//        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+//        Scheme = "Bearer",
+//        BearerFormat = "JWT"
+//    });
+
+//    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+//    {
+//        {
+//            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+//            {
+//                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+//                {
+//                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+//                    Id = "Bearer"
+//                }
+//            },
+//            new string[] {}
+//        }
+//    });
+//});
 
 // ---------------- CORS ----------------
 builder.Services.AddCors(options =>
