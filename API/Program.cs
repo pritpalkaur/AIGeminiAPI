@@ -28,7 +28,7 @@ builder.Services.AddVersionedApiExplorer(options =>
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
 });
-
+builder.Services.AddMemoryCache();
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()

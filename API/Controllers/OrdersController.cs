@@ -58,7 +58,7 @@ namespace API.Controllers
                     return NotFound("No orders found");
                 }
 
-                var firstOrder = orders.FirstOrDefault(o => o.Id == 16);
+                var firstOrder = orders.FirstOrDefault(o => o.Id == 1);
 
                 if (firstOrder == null)
                 {
@@ -85,7 +85,7 @@ namespace API.Controllers
 
             _logger.LogInformation("GetMyOrdersv2 called for user {UserId}", userId);
             var orders = await _orderService.GetUserOrdersAsync(userId);
-            var firstOrder = orders.FirstOrDefault(o => o.Id == 16);
+            var firstOrder = orders.FirstOrDefault(o => o.Id == 6);
 
             return Ok(MapToOrderDto(firstOrder));
         }
