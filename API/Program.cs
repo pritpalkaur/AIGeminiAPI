@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Text;
+using API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -152,6 +153,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 // Applies the CORS policy so Angular frontend can call this API
 app.UseCors("AllowAngular");
+app.UseMiddleware<ExceptionMiddleware>();   // GLOBAL EXCEPTION HANDLER
+
 // Validates JWT tokens on incoming requests (checks signature, issuer, audience, expiry)
 app.UseAuthentication();   // <-- IMPORTANT
 // Checks user permissions/roles after authentication (works with [Authorize] attributes)

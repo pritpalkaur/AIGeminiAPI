@@ -82,9 +82,14 @@ namespace API.Controllers
         public async Task<IActionResult> GetMyOrdersv2([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             string userId = "admin";
-            var result = await _orderService.GetPagedOrdersAsync(userId, pageNumber, pageSize);
-            return Ok(result);
+
+            _logger.LogInformation("GetMyOrdersv2 called for user {UserId}", userId);
+            var orders = await _orderService.GetUserOrdersAsync(userId);
+            var firstOrder = orders.FirstOrDefault(o => o.Id == 16);
+
+            return Ok(MapToOrderDto(firstOrder));
         }
+
 
         private static OrderResponseDto MapToOrderDto(Order order)
         {
