@@ -131,34 +131,6 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-//builder.Services.AddSwaggerGen(options =>
-//{
-//    // Add JWT support in Swagger
-//    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-//    {
-//        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-//        Description = "Enter JWT token",
-//        Name = "Authorization",
-//        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
-//        Scheme = "Bearer",
-//        BearerFormat = "JWT"
-//    });
-
-//    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-//    {
-//        {
-//            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-//            {
-//                Reference = new Microsoft.OpenApi.Models.OpenApiReference
-//                {
-//                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-//                    Id = "Bearer"
-//                }
-//            },
-//            new string[] {}
-//        }
-//    });
-//});
 
 // ---------------- CORS ----------------
 builder.Services.AddCors(options =>

@@ -26,32 +26,6 @@ namespace API.Controllers
 
 
         }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto dto)
-        {
-            var userId = User.Identity?.Name; // or claim "sub"/"username"
-            if (string.IsNullOrEmpty(userId))
-                return Unauthorized();
-           try
-            {
-                var order = await _orderService.CreateOrderAsync(userId, dto);
-                if (order == null)
-                {
-                    _logger.LogWarning("Order {OrderId} not found for user {UserId}", userId);
-                    return NotFound();
-                }
-
-                return Ok(MapToResponse(order));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error fetching order {OrderId} for user {UserId}", userId);
-                return StatusCode(500, "Internal server error");
-            }
-
-        }
-
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetOrderById(int id)
         {
@@ -69,15 +43,39 @@ namespace API.Controllers
         [MapToApiVersion("1.0")]
         public async Task<IActionResult> GetMyOrdersv1([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            //var userId = User.Identity?.Name;
-            //if (string.IsNullOrEmpty(userId))
-            //    return Unauthorized();
             string userId = "admin";
-            var orders = await _orderService.GetUserOrdersAsync(userId.ToString());
-            var firstOrder = orders.FirstOrDefault(o => o.Id == 6);
-            return Ok(MapToOrderDto(firstOrder));
-        }
 
+            _logger.LogInformation("GetMyOrdersv1 called for user {UserId} with pageNumber={PageNumber}, pageSize={PageSize}",
+                userId, pageNumber, pageSize);
+
+            try
+            {
+                var orders = await _orderService.GetUserOrdersAsync(userId);
+
+                if (orders == null || !orders.Any())
+                {
+                    _logger.LogWarning("No orders found for user {UserId}", userId);
+                    return NotFound("No orders found");
+                }
+
+                var firstOrder = orders.FirstOrDefault(o => o.Id == 16);
+
+                if (firstOrder == null)
+                {
+                    _logger.LogWarning("Order with ID 6 not found for user {UserId}", userId);
+                    return NotFound("Order ID 6 not found");
+                }
+
+                _logger.LogInformation("Returning order ID {OrderId} for user {UserId}", firstOrder.Id, userId);
+
+                return Ok(MapToOrderDto(firstOrder));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching orders for user {UserId}", userId);
+                return StatusCode(500, "Internal server error");
+            }
+        }
 
         [HttpGet]
         [MapToApiVersion("2.0")]
