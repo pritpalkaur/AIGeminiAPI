@@ -8,7 +8,7 @@ import { Order } from '../models/order';
 })
 export class OrderService {
 
-  private apiUrl = 'http://localhost/api/orders';
+  private apiUrl = 'http://localhost/api/v1/Orders?pageNumber=1&pageSize=10';
 
   constructor(private http: HttpClient) {}
 
