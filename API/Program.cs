@@ -71,6 +71,7 @@ builder.Services.AddDbContext<OrderDbContext>(options =>
 
 
 // ---------------- DEPENDENCY INJECTION ----------------
+builder.Services.AddHttpClient();
 //-------------------user service----------------
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -88,7 +89,8 @@ builder.Services.AddHttpContextAccessor();
 
 
 // ---------------- CONTROLLERS ----------------
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 
 // ---------------- SWAGGER ----------------
 builder.Services.AddEndpointsApiExplorer();
@@ -138,7 +140,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
     {
-        policy.WithOrigins("http://192.168.88.15:8080")
+        policy.WithOrigins("http://localhost:4200")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -147,19 +149,32 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // ---------------- MIDDLEWARE ORDER ----------------
-// Enables Swagger/OpenAPI JSON endpoint (used by Swagger UI)
-app.UseSwagger();
-// Enables the interactive Swagger UI for testing API endpoints
-app.UseSwaggerUI();
-// Applies the CORS policy so Angular frontend can call this API
-app.UseCors("AllowAngular");
-app.UseMiddleware<ExceptionMiddleware>();   // GLOBAL EXCEPTION HANDLER
+// Swagger (only if you want it available)
+// ---------------- MIDDLEWARE ORDER ----------------
 
-// Validates JWT tokens on incoming requests (checks signature, issuer, audience, expiry)
-app.UseAuthentication();   // <-- IMPORTANT
-// Checks user permissions/roles after authentication (works with [Authorize] attributes)
+// Swagger (kept at top so /swagger works)
+app.UseSwagger();
+app.UseSwaggerUI();
+
+// Serve static files (wwwroot, css, js, images)
+app.UseStaticFiles();
+
+// CORS for Angular or external clients
+app.UseCors("AllowAngular");
+
+// Global exception handler
+app.UseMiddleware<ExceptionMiddleware>();
+
+// Authentication + Authorization
+app.UseAuthentication();
 app.UseAuthorization();
-// Maps controller endpoints(this is where your API routes are executed)
+
+// MVC default route (THIS makes Index page open)
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// API controllers
 app.MapControllers();
-// Starts the application and begins listening for HTTP requests
+
 app.Run();

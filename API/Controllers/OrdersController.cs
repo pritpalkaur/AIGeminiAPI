@@ -58,17 +58,15 @@ namespace API.Controllers
                     return NotFound("No orders found");
                 }
 
-                var firstOrder = orders.FirstOrDefault(o => o.Id == 1);
-
-                if (firstOrder == null)
+               if (orders == null)
                 {
                     _logger.LogWarning("Order with ID 6 not found for user {UserId}", userId);
                     return NotFound("Order ID 6 not found");
                 }
 
-                _logger.LogInformation("Returning order ID {OrderId} for user {UserId}", firstOrder.Id, userId);
+              //  _logger.LogInformation("Returning order ID {OrderId} for user {UserId}", firstOrder.Id, userId);
 
-                return Ok(MapToOrderDto(firstOrder));
+                return Ok(orders);
             }
             catch (Exception ex)
             {
