@@ -36,7 +36,8 @@ namespace API.DataAccessLayer
                 return await _context.Orders
                     .Include(o => o.Items)
                     .Where(o => o.UserId == userId)
-                    .OrderByDescending(o => o.CreatedAt)
+                    //.OrderByDescending(o => o.Id)
+                    .OrderBy(o => o.UserId)
                     .ToListAsync();
             }
             catch (Exception ex)
