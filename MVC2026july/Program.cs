@@ -1,5 +1,8 @@
+using MVC2026july.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSession();
+builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
