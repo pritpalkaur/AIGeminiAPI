@@ -1,4 +1,5 @@
-﻿using API.Model;
+﻿using API.DTOs.ViewModel;
+using API.Model;
 
 namespace API.DataAccessLayer
 {
@@ -10,6 +11,7 @@ namespace API.DataAccessLayer
         void AddUser(User user);
         void UpdateUser(User user);
         void DeleteUser(int id);
+        public UserViewModel ValidateUser(string username, string password);
     }
 
 }

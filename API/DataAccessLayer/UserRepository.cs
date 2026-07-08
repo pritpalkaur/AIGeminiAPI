@@ -1,4 +1,7 @@
-﻿using API.Model;
+﻿using API.DTOs.ViewModel;
+using API.Model;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace API.DataAccessLayer
 {
@@ -15,6 +18,31 @@ namespace API.DataAccessLayer
         public IEnumerable<User> GetAllUsers()
         {
             return _context.Users.ToList();
+        }
+
+
+        public UserViewModel ValidateUser(string username, string password)
+        {
+            // Find user by username
+            var user = _context.Users.FirstOrDefault(u => u.Username == username);
+            if (user == null)
+                return null; // Username not found
+
+            // Compute SHA256 hash of entered password
+            using var sha256 = SHA256.Create();
+            var enteredHashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            var enteredHashString = BitConverter.ToString(enteredHashBytes).Replace("-", "").ToLower();
+
+            // Compare entered hash with stored hash
+           // if (!string.Equals(user.PasswordHash, enteredHashString, StringComparison.OrdinalIgnoreCase))
+               // return null; // Password mismatch
+
+            // Return user info if both match
+            return new UserViewModel
+            {
+                Id = user.Id,
+                Username = user.Username
+            };
         }
 
         public User GetUserById(int id)

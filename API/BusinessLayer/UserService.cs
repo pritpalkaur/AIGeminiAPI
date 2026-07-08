@@ -1,4 +1,5 @@
 ﻿using API.DataAccessLayer;
+using API.DTOs.ViewModel;
 using API.Model;
 
 namespace API.BusinessLayer
@@ -35,6 +36,10 @@ namespace API.BusinessLayer
         public void DeleteUser(int id)
         {
             _userRepository.DeleteUser(id);
+        }
+        public UserViewModel ValidateUser(string username, string password)
+        {             
+            return _userRepository.ValidateUser(username, password);
         }
 
     }

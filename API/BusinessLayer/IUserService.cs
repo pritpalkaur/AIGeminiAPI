@@ -1,4 +1,5 @@
-﻿using API.Model;
+﻿using API.DTOs.ViewModel;
+using API.Model;
 
 namespace API.BusinessLayer
 {
@@ -10,6 +11,7 @@ namespace API.BusinessLayer
         void AddUser(User user);
         void UpdateUser(User user);
         void DeleteUser(int id);
+        UserViewModel ValidateUser(string username, string password);
     }
 
 }
