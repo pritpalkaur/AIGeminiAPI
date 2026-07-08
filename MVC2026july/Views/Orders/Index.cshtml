@@ -1,0 +1,63 @@
+﻿@model List<MVC2026july.Models.OrderViewModel>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h2>Orders List</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>User</th>
+            <th>Status</th>
+            <th>Total Amount</th>
+            <th>Created At</th>
+            <th>Items</th>
+        </tr>
+    </thead>
+    <tbody id="ordersBody">
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.UserId</td>
+                <td>@order.Status</td>
+                <td>@order.TotalAmount</td>
+                <td>@order.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    <button class="btn btn-sm btn-info" onclick="toggleItems(@order.Id)">View Items</button>
+                    <div id="items-@order.Id" style="display:none;">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in order.Items)
+                                {
+                                    <tr>
+                                        <td>@item.ProductId</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.UnitPrice</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function toggleItems(orderId) {
+        const div = document.getElementById(`items-${orderId}`);
+        div.style.display = div.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
