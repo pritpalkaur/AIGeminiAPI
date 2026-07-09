@@ -34,7 +34,7 @@ namespace MVC2026july.Controllers
             {
                 var result = await response.Content.ReadFromJsonAsync<TokenResponse>();
                 HttpContext.Session.SetString("JWToken", result.Token);
-                return RedirectToAction("Index", "Orders");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.Error = "Invalid credentials";
