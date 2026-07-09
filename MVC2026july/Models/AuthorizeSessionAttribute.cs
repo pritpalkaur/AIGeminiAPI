@@ -10,7 +10,7 @@ namespace MVC2026july.Models
             var token = context.HttpContext.Session.GetString("JWToken");
             if (string.IsNullOrEmpty(token))
             {
-                context.Result = new RedirectToActionResult("Login", "Home", null);
+                context.Result = new RedirectToActionResult("Index", "Home", null);
             }
         }
     }

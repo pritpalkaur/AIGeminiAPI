@@ -34,7 +34,7 @@ namespace MVC2026july.Controllers
             {
                 var result = await response.Content.ReadFromJsonAsync<TokenResponse>();
                 HttpContext.Session.SetString("JWToken", result.Token);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Check");
             }
 
             ViewBag.Error = "Invalid credentials";
@@ -44,7 +44,14 @@ namespace MVC2026july.Controllers
         {
             return View();
         }
+        public IActionResult Logout()
+        {
+            // Clear JWT token and any other session data
+            HttpContext.Session.Clear();
 
+            // Optionally redirect to login page
+            return RedirectToAction("Index", "Home");
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
